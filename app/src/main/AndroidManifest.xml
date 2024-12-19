@@ -12,10 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PalabraGame"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.ca-app-pub-6514827894090047~8864010492"
+            android:value="ca-app-pub-6514827894090047~8864010492"/>
+
         <activity
-            android:name=".MainActivity2"
-            android:exported="false"
-            android:label="@string/title_activity_main2" />
+            android:name=".PalabroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity3"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

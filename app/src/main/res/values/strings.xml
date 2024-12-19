@@ -4,4 +4,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="send_palabro">Send</string>
+    <string name="win">You win!</string>
+    <string name="the_word">"The word was: "</string>
+    <string name="is_lose">You lose!</string>
+    <string name="admob_app_id">
+ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_banner_id">
+ca-app-pub-3940256099942544/6300978111</string>
 </resources>

@@ -8,6 +8,18 @@
     tools:context=".MainActivity3">
 
 
+    <!-- set Banner ad position in UI layout design -->
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView_game_selection"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/admob_game_selection_banner_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <Button
         android:id="@+id/text_game1"
         android:layout_width="match_parent"
@@ -15,14 +27,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:text="Game 1"
         android:onClick="goPalabro"
+        android:text="@string/palabro"
+        android:layout_marginTop="12dp"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/adView_game_selection" />
 
     <Button
         android:id="@+id/text_game2"

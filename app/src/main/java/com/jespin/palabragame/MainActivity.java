@@ -24,9 +24,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final Handler h = new Handler();
-
-        h.postDelayed(new Runnable() {
-
+            h.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(MainActivity.this, MainActivity3.class);
@@ -34,5 +32,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }, 5000);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
     }
 }

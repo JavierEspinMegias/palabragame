@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MotoGame</string>
+    <string name="send_palabro">Envoyer</string>
+    <string name="win">Tu gagnes!</string>
+    <string name="the_word">Le mot était:</string>
+    <string name="is_lose">Tu perds</string>
+    <string name="palabro">Moto</string>
+    <string name="word_does_not_exists">"Ce mot n'existe pas "</string>
+    <string name="new_game">"Nouveau jeu "</string>
+    <string name="back">Retour</string>
+    <string name="win_game_at_round">"Tu as gagné au tour "</string>
+    <string name="not_5_characters_filled">"Vous n'avez pas complété cinq caractères "</string>
+</resources>

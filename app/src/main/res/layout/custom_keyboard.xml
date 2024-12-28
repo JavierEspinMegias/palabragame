@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/button_q"
+                        style="@style/keyboardButtonStyle"
+                        android:text="Q"/>
+
+                    <TextView
+                        android:id="@+id/button_w"
+                        style="@style/keyboardButtonStyle"
+                        android:text="W" />
+
+                    <TextView
+                        android:id="@+id/button_e"
+                        style="@style/keyboardButtonStyle"
+                        android:text="E" />
+
+                    <TextView
+                        android:id="@+id/button_r"
+                        style="@style/keyboardButtonStyle"
+                        android:text="R" />
+
+                    <TextView
+                        android:id="@+id/button_t"
+                        style="@style/keyboardButtonStyle"
+                        android:text="T" />
+
+                    <TextView
+                        android:id="@+id/button_y"
+                        style="@style/keyboardButtonStyle"
+                        android:text="Y" />
+
+                    <TextView
+                        android:id="@+id/button_u"
+                        style="@style/keyboardButtonStyle"
+                        android:text="U" />
+
+                    <TextView
+                        android:id="@+id/button_i"
+                        style="@style/keyboardButtonStyle"
+                        android:text="I" />
+
+                    <TextView
+                        android:id="@+id/button_o"
+                        style="@style/keyboardButtonStyle"
+                        android:text="O" />
+
+                    <TextView
+                        android:id="@+id/button_p"
+                        style="@style/keyboardButtonStyle"
+                        android:text="P" />
+                </TableRow>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/button_a"
+                        style="@style/keyboardButtonStyle"
+                        android:text="A" />
+
+                    <TextView
+                        android:id="@+id/button_s"
+                        style="@style/keyboardButtonStyle"
+                        android:text="S" />
+
+                    <TextView
+                        android:id="@+id/button_d"
+                        style="@style/keyboardButtonStyle"
+                        android:text="D" />
+
+                    <TextView
+                        android:id="@+id/button_f"
+                        style="@style/keyboardButtonStyle"
+                        android:text="F" />
+
+                    <TextView
+                        android:id="@+id/button_g"
+                        style="@style/keyboardButtonStyle"
+                        android:text="G" />
+
+                    <TextView
+                        android:id="@+id/button_h"
+                        style="@style/keyboardButtonStyle"
+                        android:text="H" />
+
+                    <TextView
+                        android:id="@+id/button_j"
+                        style="@style/keyboardButtonStyle"
+                        android:text="J" />
+
+                    <TextView
+                        android:id="@+id/button_k"
+                        style="@style/keyboardButtonStyle"
+                        android:text="K" />
+
+                    <TextView
+                        android:id="@+id/button_l"
+                        style="@style/keyboardButtonStyle"
+                        android:text="L" />
+                </TableRow>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/button_z"
+                        style="@style/keyboardButtonStyle"
+                        android:text="Z" />
+
+                    <TextView
+                        android:id="@+id/button_x"
+                        style="@style/keyboardButtonStyle"
+                        android:text="X" />
+
+                    <TextView
+                        android:id="@+id/button_c"
+                        style="@style/keyboardButtonStyle"
+                        android:text="C" />
+
+                    <TextView
+                        android:id="@+id/button_v"
+                        style="@style/keyboardButtonStyle"
+                        android:text="V" />
+
+                    <TextView
+                        android:id="@+id/button_b"
+                        style="@style/keyboardButtonStyle"
+                        android:text="B" />
+
+                    <TextView
+                        android:id="@+id/button_n"
+                        style="@style/keyboardButtonStyle"
+                        android:text="N" />
+
+                    <TextView
+                        android:id="@+id/button_m"
+                        style="@style/keyboardButtonStyle"
+                        android:text="M" />
+
+                </TableRow>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/button_send"
+                        android:layout_width="64dp"
+                        android:layout_height="36dp"
+                        android:gravity="center"
+                        android:layout_margin="2dp"
+                        android:background="@drawable/border_keyboard"
+                        android:text="@string/send_palabro" />
+
+                    <TextView
+                        android:id="@+id/button_delete"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_margin="2dp"
+                        android:background="@android:drawable/btn_dialog"
+                        android:gravity="center" />
+                </TableRow>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

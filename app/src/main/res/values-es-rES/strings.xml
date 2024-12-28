@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Palabrota</string>
+    <string name="send_palabro">Enviar</string>
+    <string name="win">Tu ganas!</string>
+    <string name="the_word">La palabra era:</string>
+    <string name="is_lose">Tu pierdes</string>
+    <string name="palabro">Palabro</string>
+    <string name="word_does_not_exists">Esta palabra no existe:</string>
+    <string name="new_game">Nueva partida</string>
+    <string name="back">Volver</string>
+    <string name="win_game_at_round">Ganaste en la ronda</string>
+    <string name="not_5_characters_filled">No has completado cinco caracteres</string>
+</resources>

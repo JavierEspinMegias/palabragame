@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.WindowMetrics;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,15 +30,15 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
-import com.google.android.libraries.ads.mobile.sdk.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 
-public class PalabroActivity extends AppCompatActivity {
-
+public class    PalabroActivity extends AppCompatActivity {
 
     private String selectedWord;
     private String inputWord;
@@ -48,11 +49,12 @@ public class PalabroActivity extends AppCompatActivity {
     private ArrayList<Integer> dList = new ArrayList<>();
     private ArrayList<Integer> eList = new ArrayList<>();
     private ArrayList<Integer> fList = new ArrayList<>();
-
+    private String[] wordsList = new String[0];
     private ArrayList<ArrayList<Integer>> allLists = new ArrayList<>();
     private ArrayList<Integer> actualList;
-    private ArrayList<Integer> correctLetterPositions;
-
+    private HashMap<Integer, String> correctLetterPositions;
+    private HashMap<String, Integer> letters = new HashMap<String, Integer>();
+    private int selectedSpotId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +66,6 @@ public class PalabroActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        ArrayList<String> wordList = new ArrayList<>();
-        wordList.add("saaaa");
-        wordList.add("saaaa");
-        wordList.add("saaaa");
-        wordList.add("saaaa");
-        wordList.add("saaaa");
-
-        Random r = new Random();
-        int result = r.nextInt(wordList.size());
-        selectedWord = wordList.get(result);
 
         aList.add(R.id.a1);
         aList.add(R.id.a2);
@@ -120,34 +111,170 @@ public class PalabroActivity extends AppCompatActivity {
         allLists.add(fList);
 
 
-        correctLetterPositions = new ArrayList<>();
-        correctLetterPositions.clear();
+        correctLetterPositions = new HashMap<>();
 
-        setAutoMoveNextChar();
+        // Prepare keyboard behaviour
+        createKeyboardMap();
+        overrideKeyboardButtons();
+        // Prepare spots behaviour
+        overrideSpotsOnClick();
+        selectCharSpot(R.id.a1, false);
 
-        Toast.makeText(this, "" + selectedWord, Toast.LENGTH_SHORT).show();
-
-
-        // Initialize the Mobile Ads SDK
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-                Toast.makeText(this, " successful ", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        AdView mAdView;
-        mAdView = findViewById(R.id.adView);
+        // Prepare ad
+        AdView adView = findViewById(R.id.adView_game1);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
+
+        // Select word list by locale languaje
+        wordsList = getResources().getStringArray(getWordsListByLocale());
+        int randomPosition = new Random().nextInt(wordsList.length);
+        selectedWord = wordsList[randomPosition];
+
+        Toast.makeText(this, ""+selectedWord, Toast.LENGTH_SHORT).show();
     }
 
-    public void sendResult(View v){
+    private void createKeyboardMap(){
+        letters.put("a", R.id.button_a);
+        letters.put("b", R.id.button_b);
+        letters.put("c", R.id.button_c);
+        letters.put("d", R.id.button_d);
+        letters.put("e", R.id.button_e);
+        letters.put("f", R.id.button_f);
+        letters.put("g", R.id.button_g);
+        letters.put("h", R.id.button_h);
+        letters.put("i", R.id.button_i);
+        letters.put("j", R.id.button_j);
+        letters.put("k", R.id.button_k);
+        letters.put("l", R.id.button_l);
+        letters.put("m", R.id.button_m);
+        letters.put("n", R.id.button_n);
+        letters.put("o", R.id.button_o);
+        letters.put("p", R.id.button_p);
+        letters.put("q", R.id.button_q);
+        letters.put("r", R.id.button_r);
+        letters.put("s", R.id.button_s);
+        letters.put("t", R.id.button_t);
+        letters.put("u", R.id.button_u);
+        letters.put("v", R.id.button_v);
+        letters.put("w", R.id.button_w);
+        letters.put("x", R.id.button_x);
+        letters.put("y", R.id.button_y);
+        letters.put("z", R.id.button_z);
+        letters.put("delete", R.id.button_delete);
+        letters.put("send", R.id.button_send);
+    }
+
+    private void overrideSpotsOnClick() {
+        TextView singleSpot;
+        for (int i = 0; i < allLists.size(); i++) {
+            for (int j = 0; j < allLists.get(i).size(); j++) {
+                final int thisRow = i;
+                final int positionId = allLists.get(i).get(j);
+                singleSpot = findViewById(positionId);
+                singleSpot.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(thisRow == round){
+                            selectCharSpot(selectedSpotId, true);
+                            selectCharSpot(positionId, false);
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+
+    private void selectCharSpot(int positionId, boolean isDeselect){
+        TextView textViewSpot = findViewById(positionId);
+        if(isDeselect){
+            textViewSpot.setBackground(getResources().getDrawable(R.drawable.round_box));
+        }else{
+            selectedSpotId = positionId;
+            textViewSpot.setBackground(getResources().getDrawable(R.drawable.selected_spot));
+        }
+    }
+    private void selectNextSpot(){
+        TextView selectTextView;
+        for (int i = 0; i < allLists.get(round).size()-1; i++) {
+            selectTextView = findViewById(allLists.get(round).get(i+1));
+            if(allLists.get(round).get(i)==selectedSpotId && selectTextView.getCurrentTextColor() != getResources().getColor(R.color.grey)){
+                selectCharSpot(allLists.get(round).get(i+1), false);
+                selectCharSpot(allLists.get(round).get(i), true);
+                break;
+            }
+        }
+    }
+    private void removeSpot(){
+        for (int i = 0; i < allLists.get(round).size(); i++) {
+            if(allLists.get(round).get(i) == selectedSpotId){
+                TextView textViewType = findViewById(getRow().get(i));
+                textViewType.setText("");
+                selectCharSpot(getRow().get(i), true);
+
+                if(i > 0 ){
+                    for (int j = i-1; j >= 0; j--) {
+                        TextView previousTextView = findViewById(getRow().get(j));
+                        if(previousTextView.getCurrentTextColor() != getResources().getColor(R.color.grey)){
+                            selectCharSpot(getRow().get(j), false);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private void overrideKeyboardButtons(){
+        for (int i = 0; i < letters.values().size(); i++) {
+            TextView key_text = findViewById((Integer) letters.values().toArray()[i]);
+            key_text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(key_text.getId() == R.id.button_delete){
+                        removeSpot();
+                    }else if(key_text.getId() == R.id.button_send){
+                        sendResult();
+                    }else{
+                        TextView textViewType = findViewById(selectedSpotId);
+                        textViewType.setText(key_text.getText().toString());
+                        selectNextSpot();
+                    }
+                }
+            });
+        }
+    }
+    private int getWordsListByLocale(){
+        String locale = getResources().getConfiguration().locale.toString().toLowerCase();
+        if (locale.contains("es")) {
+            return R.array.esp_5_words;
+        } else if (locale.contains("fr")) {
+            return R.array.fra_5_words;
+        } else if (locale.contains("it")) {
+            return R.array.ita_5_words;
+        } else if (locale.contains("de")) {
+            return R.array.deu_5_words;
+        }
+        return R.array.eng_5_words;
+    }
+    public void sendResult(){
         actualList = getRow();
         inputWord = convertToWord(actualList);
-        checkWord(inputWord);
+        if(inputWord.length()<5){
+            Toast.makeText(this, getResources().getString(R.string.not_5_characters_filled), Toast.LENGTH_SHORT).show();
+        }else if(word_exists()){
+            checkWord();
+        }else{
+            Toast.makeText(this, getResources().getString(R.string.word_does_not_exists)+""+convertToWord(actualList), Toast.LENGTH_SHORT).show();
+        }
     }
-
+    private boolean word_exists(){
+        for(String singleWord:wordsList){
+            if(convertToWord(actualList).equals(singleWord.toUpperCase())){
+                return true;
+            }
+        }
+        return false;
+    }
     private ArrayList<Integer> getRow(){
         switch (round){
             case 0:
@@ -162,143 +289,106 @@ public class PalabroActivity extends AppCompatActivity {
                 return eList;
             case 5:
                 return fList;
+            default:
+                return null;
         }
-        return null;
     }
-
     private String convertToWord(ArrayList<Integer> letterList){
         String singleWord = "";
         for(Integer letterId:letterList){
-            EditText newEdit = findViewById(letterId);
+            TextView newEdit = findViewById(letterId);
             singleWord += newEdit.getText();
         }
-        return singleWord;
+        return singleWord.toUpperCase();
     }
-    private void checkWord(String inputWord){
-        if(inputWord.length()>4){
-            for (int i = 0; i < inputWord.length(); i++) {
-                EditText thisEdit = findViewById(actualList.get(i));
-                if(inputWord.toCharArray()[i]==selectedWord.toCharArray()[i]) {
-                    correctLetterPositions.add(i);
-                    thisEdit.setBackgroundColor(Color.GREEN);
-                }else if(selectedWord.contains(inputWord.toCharArray()[i]+"")){
-                    thisEdit.setBackgroundColor(Color.LTGRAY);
-                }else{
-                    thisEdit.setBackgroundColor(Color.RED);
+    private boolean checkWord(){
+        int incorrectSpotId = 10;
+        TextView textViewKeyboardLetter;
+        for (int i = 0; i < inputWord.length(); i++) {
+            TextView thisSpotTextView = findViewById(actualList.get(i));
+            textViewKeyboardLetter = findViewById(letters.get(inputWord.toLowerCase().toCharArray()[i]+""));
+            if(inputWord.toLowerCase().toCharArray()[i] == selectedWord.toLowerCase().toCharArray()[i]) {
+
+                correctLetterPositions.put(i, inputWord.toLowerCase().toCharArray()[i]+"");
+                thisSpotTextView.setBackgroundColor(getResources().getColor(R.color.right));
+                thisSpotTextView.setTextColor(getResources().getColor(R.color.grey));
+                textViewKeyboardLetter.setBackgroundColor(getResources().getColor(R.color.right));
+
+            }else if(selectedWord.toLowerCase().contains((inputWord.toCharArray()[i]+"").toLowerCase())){
+
+                thisSpotTextView.setBackgroundColor(getResources().getColor(R.color.orange));
+                textViewKeyboardLetter.setBackgroundColor(getResources().getColor(R.color.orange));
+
+            }else{
+                if(incorrectSpotId==10){
+                    incorrectSpotId = i;
+                }
+                thisSpotTextView.setBackgroundColor(getResources().getColor(R.color.bad));
+                textViewKeyboardLetter.setBackgroundColor(getResources().getColor(R.color.bad));
+                textViewKeyboardLetter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+            }
+        }
+
+        if(round<5 && correctLetterPositions.size()<5 && correctLetterPositions.size()>0){
+            Set<Integer> data;
+            if(correctLetterPositions.keySet().size()>0){
+                data = correctLetterPositions.keySet();
+                for (int index:data){
+                    TextView nextSpotTextView = findViewById(allLists.get(round+1).get(index));
+                    nextSpotTextView.setBackgroundColor(getResources().getColor(R.color.right));
+                    nextSpotTextView.setTextColor(getResources().getColor(R.color.grey));
+                    nextSpotTextView.setText(selectedWord.toUpperCase().toCharArray()[index]+"");
                 }
             }
-            closeEditTexts(actualList);
-            if(openEditTexts()){
-//                Win game
-
-
-            }
-        }else{
-            Toast.makeText(this, "Not 5 characters filled", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void closeEditTexts(ArrayList<Integer> closeList){
-        for(Integer position:closeList){
-            EditText thisEdit = findViewById(position);
-            thisEdit.setFocusable(false);
-            thisEdit.setClickable(false);
-        }
-        round +=1;
-    }
-    private boolean openEditTexts(){
-        int rightLetters = 0;
-        ArrayList<Integer> rightPositions = new ArrayList<>();
-        for (int i = 0; i < selectedWord.length(); i++) {
-            EditText thisEdit = findViewById(getRow().get(i));
-            if((inputWord.toCharArray()[i]+"").equals(selectedWord.toCharArray()[i]+"")){
-                rightPositions.add(i);
-                rightLetters+=1;
-            }else{
-                thisEdit.setFocusable(true);
-                thisEdit.setClickable(true);
-            }
-        }
-        if(rightLetters==5){
+        }else if(correctLetterPositions.size()==5){
+//            Game win
             onButtonShowPopupWindowClick(true);
-            Toast.makeText(this, "Win game at round "+round, Toast.LENGTH_SHORT).show();
             return true;
-        }else{
-            for (int i = 0; i < rightPositions.size(); i++) {
-                EditText thisEdit = findViewById(getRow().get(rightPositions.get(i)));
-                thisEdit.setBackgroundColor(Color.GREEN);
-                thisEdit.setText(selectedWord.toCharArray()[rightPositions.get(i)]+"");
+        }
+        passRound(incorrectSpotId);
+        return false;
+    }
+    private boolean passRound(int incorrectSpotId){
+        if(round<5){
+            round+=1;
+            actualList = getRow();
+            if(incorrectSpotId!=10){
+                selectCharSpot(allLists.get(round).get(incorrectSpotId), false);
             }
+            makeTextViewsUnclickable();
+        }else if(round == 5){
+//            Game lost
+            onButtonShowPopupWindowClick(false);
+            return false;
         }
         return false;
     }
 
-    private void setAutoMoveNextChar(){
-        for(ArrayList<Integer> list:allLists) {
-            for (int i = 0; i < list.size()-1; i++) {
-                if(i<list.size()){
-                    EditText thisEdit = findViewById(list.get(i));
-                    EditText nextEdit = findViewById(list.get(i+1));
+    private void makeTextViewsUnclickable(){
+        for (int i = 0; i < correctLetterPositions.size(); i++) {
+            TextView correctText = findViewById(allLists.get(round).get((Integer) correctLetterPositions.keySet().toArray()[0]));
+            correctText.setClickable(false);
+            correctText.setActivated(false);
+            correctText.setFocusable(false);
+            correctText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                    thisEdit.addTextChangedListener(new TextWatcher() {
-
-                        public void onTextChanged(CharSequence s, int start,int before, int count)
-                        {
-                            // TODO Auto-generated method stub
-                            if(thisEdit.getText().toString().length()==1)     //size as per your requirement
-                            {
-                                nextEdit.requestFocus();
-                            }
-                        }
-                        public void beforeTextChanged(CharSequence s, int start,
-                                                      int count, int after) {
-                            // TODO Auto-generated method stub
-
-                        }
-
-                        public void afterTextChanged(Editable s) {
-                            // TODO Auto-generated method stub
-                        }
-
-                    });
                 }
-            }
+            });
         }
     }
-
-
     public void onButtonShowPopupWindowClick(boolean isWin) {
 
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window, null);
-
-
-        TextView textViewIsWin = popupView.findViewById(R.id.popup_win);
-        if(!isWin){
-            textViewIsWin.setText(R.string.is_lose);
-        }
-        TextView textViewWord = popupView.findViewById(R.id.popup_word);
-        textViewWord.setText(textViewWord.getText().toString()+" "+selectedWord);
-
-        Button buttonNewGame = popupView.findViewById(R.id.popup_button_new);
-        buttonNewGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent k = new Intent(PalabroActivity.this, PalabroActivity.class);
-                startActivity(k);
-            }
-        });
-
-        Button buttonBack = popupView.findViewById(R.id.popup_button_other);
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent k = new Intent(PalabroActivity.this, MainActivity3.class);
-                startActivity(k);
-            }
-        });
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -308,7 +398,7 @@ public class PalabroActivity extends AppCompatActivity {
 
         // show the popup window
         // which view you pass in doesn't matter, it is only used for the window tolken
-        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(this.getWindow().getDecorView().getRootView(), Gravity.CENTER, 0, 0);
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
@@ -316,6 +406,31 @@ public class PalabroActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 popupWindow.dismiss();
                 return true;
+            }
+        });
+
+        TextView isWinText = popupView.findViewById(R.id.popup_win);
+        if(!isWin){
+            isWinText.setText(getResources().getString(R.string.is_lose));
+        }
+        TextView theWordWas = popupView.findViewById(R.id.popup_word);
+        theWordWas.setText(theWordWas.getText().toString()+" "+selectedWord);
+
+        Button newGameButton = popupView.findViewById(R.id.popup_button_new);
+        newGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+        });
+
+        Button backGameButton = popupView.findViewById(R.id.popup_button_other);
+        backGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }

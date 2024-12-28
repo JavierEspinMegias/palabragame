@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WordoGame</string>
+    <string name="send_palabro">Send</string>
+    <string name="win">You win!</string>
+    <string name="the_word">The word was:</string>
+    <string name="is_lose">You lose!</string>
+    <string name="palabro">Wordo</string>
+    <string name="not_5_characters_filled">Not five characters filled</string>
+    <string name="word_does_not_exists">This word does not exists:</string>
+    <string name="win_game_at_round">Win game at round</string>
+    <string name="new_game">New game</string>
+    <string name="back">back</string>
+</resources>
